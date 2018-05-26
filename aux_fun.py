@@ -1,24 +1,26 @@
 import pandas as pd
+import numpy as np
 import datetime
 import time
 
+#takes in input the dataset used as testSet and the datset with results
 def evaluate(test, result):
-    merged = pd.merge(test, result, how='inner', on=[['StoreID', 'Month']])
-    den = test['NumberOfSales'].groupby(test['Region']).sum()
-    #num = (test['NumberOfSales']-result['NumberOfSales']).
-    err = num/den
+
+    merged = merge_for_evaluation(test, result)
+    num = (np.abs(merged['NumberOfSales_x']- merged['NumberOfSales_y'])).groupby(test['Region']).sum()
+    #print(num)
+    den = merged['NumberOfSales_x'].groupby(test['Region']).sum()
+    #print(den)
+    err_region = np.array(num/den)
+    n_regions = len(merged['Region'].unique())
+    err = np.sum(err_region, axis=0)/n_regions
     return err
 
-
-test = pd.read_csv('/home/giada/github/data-mining-challenge/data/train_imputed.csv')
-results = pd.read_csv('/home/giada/github/data-mining-challenge/data/sample_submission.csv')
-results.head()
-test['Date']= pd.to_datetime(test['Date'])
-test['Month']=pd.DatetimeIndex(test['Date']).month
-test['Month']
-target = pd.DataFrame(test[['StoreID','Month','NumberOfSales']])
-tot_sale_month_store = pd.DataFrame(target.groupby(['StoreID','Month'])['NumberOfSales'].sum())
-tot_sale_month_store
-#TODO Save in a correct dataframe
-
-evaluate(tot_sale_month_store, results)
+def merge_for_evaluation(test, result):
+    test['Date']= pd.to_datetime(test['Date'])
+    test['Month']=pd.DatetimeIndex(test['Date']).month
+    target =test.groupby(['StoreID','Month'], as_index=False)['NumberOfSales'].sum()
+    region =test.groupby(['StoreID','Month'], as_index=False)['Region'].mean()
+    target = pd.merge(target, region,   how='inner', on=['StoreID', 'Month'])
+    merged = pd.merge(target, result, how='inner', on=['StoreID', 'Month'])
+    return merged
