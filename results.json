@@ -1,0 +1,30 @@
+{
+  "method": "Random Forest",
+  "r2": 0.9830277167589061,
+  "r2_grouped": 0.9960065507073024,
+  "evaluation": 0.013979347107897038,
+  "parameters": {
+    "n_estimators": 15
+  },
+  "notes": "None"
+}
+{
+  "evaluation": 0.013833048898238541,
+  "parameters": {
+    "n_estimators": 20
+  },
+  "method": "Random Forest",
+  "r2": 0.9831658223798222,
+  "notes": "None",
+  "r2_grouped": 0.996052318276285
+}
+{
+  "evaluation": 0.013833048898238541,
+  "parameters": {
+    "n_estimators": 20
+  },
+  "method": "Random Forest",
+  "r2": 0.9831658223798222,
+  "notes": "None",
+  "r2_grouped": 0.996052318276285
+}
