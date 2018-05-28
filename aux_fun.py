@@ -15,8 +15,6 @@ def evaluate(test, result):
     return err
 
 def merge_for_evaluation(test, result):
-    test['Date']= pd.to_datetime(test['Date'])
-    test['Month']=pd.DatetimeIndex(test['Date']).month
     target =test.groupby(['StoreID','Month'], as_index=False)['NumberOfSales'].sum()
     region =test.groupby(['StoreID','Month'], as_index=False)['Region'].mean()
     target = pd.merge(target, region,   how='inner', on=['StoreID', 'Month'])
