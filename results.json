@@ -28,3 +28,27 @@
   "notes": "None",
   "r2_grouped": 0.996052318276285
 }
+{
+  "evaluation": 0.013932896549588474,
+  "notes": "None",
+  "r2_grouped": 0.9961487728153068,
+  "parameters": 15,
+  "method": "Random Forest",
+  "r2": 0.9833733059002104
+}
+{
+  "method": "Random Forest",
+  "r2": 0.9835937054416375,
+  "evaluation": 0.013611355889494421,
+  "notes": "None",
+  "parameters": 20,
+  "r2_grouped": 0.9961202003941722
+}
+{
+  "notes": "None",
+  "r2_grouped": 0.9962021520537645,
+  "parameters": 25,
+  "method": "Random Forest",
+  "r2": 0.9841014518315019,
+  "evaluation": 0.013734077817237327
+}
