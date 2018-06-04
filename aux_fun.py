@@ -6,6 +6,7 @@ import json
 from sklearn.metrics import r2_score
 from sklearn.model_selection import KFold
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.decomposition import PCA
 import sklearn
 
 def my_eval(X_test, y_test, y_pred):
@@ -46,8 +47,11 @@ X_mat: matrix X
 y: target
 n_folds: folds for cv
 '''
-def my_grid_search_cv(model, params_array, X_mat, y, n_folds=5):
+def my_grid_search_cv(model, params_array, X_mat, y, n_folds=5, pca=False, pca_components=40):
     res = []
+    if pca:
+        pca = PCA(n_components=pca_components)
+        X_new =pca.fit(X_mat)
     kf = KFold(n_splits=n_folds, shuffle=True, random_state=42)
     for param in params_array:
         eval_array =[]
@@ -58,8 +62,11 @@ def my_grid_search_cv(model, params_array, X_mat, y, n_folds=5):
         for train_index, test_index in kf.split(X_mat):
             X_traincv, X_testcv = X_mat.iloc[train_index], X_mat.iloc[test_index]
             y_traincv, y_testcv = y.iloc[train_index], y.iloc[test_index]
-            model.fit(X_traincv, y_traincv)
-            y_pred = model.predict(X_testcv)
+            if pca:
+                X_traincvpca = pca.transform(X_traincv)
+                X_testcvpca = pca.transform(X_testcv)
+            model.fit(X_traincvpca, y_traincv)
+            y_pred = model.predict(X_testcvpca)
             evaluation =my_eval(X_testcv,y_testcv,y_pred)
             r2 = r2_score(y_testcv,y_pred)
             r2_m = r2_month(X_testcv, y_testcv, y_pred)
