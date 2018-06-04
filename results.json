@@ -1,0 +1,28 @@
+{
+  "method": "KNN",
+  "parameters": 1,
+  "evaluation": 0.15536825952939337,
+  "r2": -0.038661112423244104,
+  "notes": "None"
+}
+{
+  "method": "AdaBoostRegressor",
+  "parameters": 4,
+  "evaluation": 0.5853025706763865,
+  "r2": -0.16555613118640955,
+  "notes": "None"
+}
+{
+  "method": "KNN",
+  "parameters": 4,
+  "evaluation": 0.1319629493791746,
+  "r2": 0.22422359180599483,
+  "notes": "None"
+}
+{
+  "method": "BaggingRegressor",
+  "parameters": 6,
+  "evaluation": 0.048057707843799195,
+  "r2": 0.9151706892082241,
+  "notes": "None"
+}

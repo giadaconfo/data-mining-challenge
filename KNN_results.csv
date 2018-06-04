@@ -1,0 +1,13 @@
+,Method,Folds,Parameters,Eval_test,R2,R2_month
+0,"KNeighborsRegressor(algorithm='auto', leaf_size=30, metric='minkowski',
+          metric_params=None, n_jobs=1, n_neighbors=2, p=2,
+          weights='uniform')",5,{'n_neighbors': 2},0.17188893908146308,-0.050516086486010095,0.7984844365193285
+1,"KNeighborsRegressor(algorithm='auto', leaf_size=30, metric='minkowski',
+          metric_params=None, n_jobs=1, n_neighbors=10, p=2,
+          weights='uniform')",5,"{'n_neighbors': 10, 'algorithm': 'auto'}",0.1469592820736477,0.21848769245661476,0.8535304988135654
+2,"KNeighborsRegressor(algorithm='ball_tree', leaf_size=30, metric='minkowski',
+          metric_params=None, n_jobs=1, n_neighbors=5, p=2,
+          weights='uniform')",5,"{'n_neighbors': 5, 'algorithm': 'ball_tree'}",0.15399172998836308,0.15140265325374494,0.8409003056271059
+3,"KNeighborsRegressor(algorithm='kd_tree', leaf_size=30, metric='minkowski',
+          metric_params=None, n_jobs=1, n_neighbors=5, p=2,
+          weights='uniform')",5,"{'n_neighbors': 5, 'algorithm': 'kd_tree'}",0.15399125194509877,0.15141238274718138,0.8409017628335883

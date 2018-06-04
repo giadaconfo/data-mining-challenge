@@ -1,0 +1,9 @@
+,Method,Folds,Parameters,Eval_test,R2,R2_month
+0,"AdaBoostRegressor(base_estimator=None, learning_rate=1.0, loss='linear',
+         n_estimators=50, random_state=None)",5,{'loss': 'linear'},0.43511761114712544,0.24852138612446334,0.08442589835160437
+1,"AdaBoostRegressor(base_estimator=None, learning_rate=1.0, loss='square',
+         n_estimators=50, random_state=None)",5,{'loss': 'square'},0.6657564076283612,-0.46686373637590917,-0.9431679586349349
+2,"AdaBoostRegressor(base_estimator=None, learning_rate=1.0, loss='exponential',
+         n_estimators=50, random_state=None)",5,{'loss': 'exponential'},0.8121889403167785,-0.798532896367235,-1.6968322901089912
+3,"AdaBoostRegressor(base_estimator=None, learning_rate=1.0, loss='linear',
+         n_estimators=50, random_state=None)",5,{'n_estimators': 50},0.4852508781035148,0.13523320916325482,-0.08236740076009189
