@@ -14,15 +14,19 @@ def my_eval(X_test, y_test, y_pred):
     result = pd.DataFrame(X_test['StoreID'])
     result.loc[:, 'Month'] = X_test['Month']
     result.loc[:, 'NumberOfSales'] = y_pred
+
     result = result.groupby(['StoreID', 'Month'], as_index=False)[
         'NumberOfSales'].sum()
     merged = merge_for_evaluation(X_test, result)
+    err = score(merged)
+    """
     num = (np.abs(merged['NumberOfSales_x'] -
                   merged['NumberOfSales_y'])).groupby(merged['Region']).sum()
     den = merged['NumberOfSales_x'].groupby(merged['Region']).sum()
     err_region = np.divide(num, den)
     n_regions = len(merged['Region'].unique())
     err = np.divide(np.sum(err_region, axis=0), n_regions)
+    """
     return err
 
 
@@ -34,6 +38,30 @@ def merge_for_evaluation(test, result):
     target = pd.merge(target, region,   how='inner', on=['StoreID', 'Month'])
     merged = pd.merge(target, result, how='inner', on=['StoreID', 'Month'])
     return merged
+
+
+def regional_error(v):
+
+    y_true = v["StoreID"]
+
+    y_pred = v["NumberOfSales_y"]
+
+    return np.sum(np.abs(y_true - y_pred)) / np.sum(y_true)
+
+
+def global_error(region_sums):
+
+    return np.mean(region_sums)
+
+
+def score(merged):
+    test = merged.groupby("Region")
+    score = global_error(merged.groupby("Region").apply(regional_error))
+
+# score = global_error(pd.merge(result, regions, on="StoreID")[
+# ["Region", "Target", "NumberOfSales"]].groupby("Region").apply(regional_error))
+
+    return score
 
 
 def r2_month(X_test, y_test, y_pred):
