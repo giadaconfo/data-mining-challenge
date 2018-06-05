@@ -25,7 +25,7 @@ def my_eval(X_test, y_test, y_pred):
     den = merged['NumberOfSales_x'].groupby(merged['Region']).sum()
     err_region = np.divide(num, den)
     n_regions = len(merged['Region'].unique())
-    err = np.divide(np.sum(err_region, axis=0), n_regions)
+    error = np.divide(np.sum(err_region, axis=0), n_regions)
     """
     return err
 
@@ -42,7 +42,7 @@ def merge_for_evaluation(test, result):
 
 def regional_error(v):
 
-    y_true = v["StoreID"]
+    y_true = v["NumberOfSales_x"]
 
     y_pred = v["NumberOfSales_y"]
 
@@ -55,7 +55,6 @@ def global_error(region_sums):
 
 
 def score(merged):
-    test = merged.groupby("Region")
     score = global_error(merged.groupby("Region").apply(regional_error))
 
 # score = global_error(pd.merge(result, regions, on="StoreID")[
