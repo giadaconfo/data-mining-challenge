@@ -6,6 +6,7 @@ import json
 from sklearn.metrics import r2_score
 from sklearn.model_selection import KFold
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.decomposition import PCA
 import sklearn
 
 def my_eval(X_test, y_test, y_pred):
@@ -15,12 +16,69 @@ def my_eval(X_test, y_test, y_pred):
     result.loc[:,'NumberOfSales'] = y_pred
     result =result.groupby(['StoreID','Month'], as_index=False)['NumberOfSales'].sum()
     merged = merge_for_evaluation(X_test, result)
+
     num = (np.abs(merged['NumberOfSales_x']- merged['NumberOfSales_y'])).groupby(merged['Region']).sum()
     den = merged['NumberOfSales_x'].groupby(merged['Region']).sum()
     err_region = np.divide(num,den)
     n_regions = len(merged['Region'].unique())
     err = np.divide(np.sum(err_region, axis=0),n_regions)
     return err
+
+def eval_2(X_test, y_test, y_pred):
+    X_test.loc[:, 'NumberOfSales'] = y_test
+    result = pd.DataFrame(X_test['StoreID'])
+    result.loc[:, 'Month'] = X_test['Month']
+    result.loc[:, 'NumberOfSales'] = y_pred
+
+    result = result.groupby(['StoreID', 'Month'], as_index=False)[
+        'NumberOfSales'].sum()
+    merged = merge_for_evaluation(X_test, result)
+    err = score(merged)
+    """
+    num = (np.abs(merged['NumberOfSales_x'] -
+                  merged['NumberOfSales_y'])).groupby(merged['Region']).sum()
+    den = merged['NumberOfSales_x'].groupby(merged['Region']).sum()
+    err_region = np.divide(num, den)
+    n_regions = len(merged['Region'].unique())
+    err = np.divide(np.sum(err_region, axis=0), n_regions)
+    """
+    return err
+
+
+def merge_for_evaluation(test, result):
+    target = test.groupby(['StoreID', 'Month'], as_index=False)[
+        'NumberOfSales'].sum()
+    region = test.groupby(['StoreID', 'Month'], as_index=False)[
+        'Region'].mean()
+    target = pd.merge(target, region,   how='inner', on=['StoreID', 'Month'])
+    merged = pd.merge(target, result, how='inner', on=['StoreID', 'Month'])
+    return merged
+
+
+def regional_error(v):
+
+    y_true = v["StoreID"]
+
+    y_pred = v["NumberOfSales_y"]
+
+    return np.sum(np.abs(y_true - y_pred)) / np.sum(y_true)
+
+
+def global_error(region_sums):
+
+    return np.mean(region_sums)
+
+
+def score(merged):
+    test = merged.groupby("Region")
+    score = global_error(merged.groupby("Region").apply(regional_error))
+    return score
+# score = global_error(pd.merge(result, regions, on="StoreID")[
+# ["Region", "Target", "NumberOfSales"]].groupby("Region").apply(regional_error))
+
+
+
+
 
 def merge_for_evaluation(test, result):
     target =test.groupby(['StoreID','Month'], as_index=False)['NumberOfSales'].sum()
@@ -46,8 +104,11 @@ X_mat: matrix X
 y: target
 n_folds: folds for cv
 '''
-def my_grid_search_cv(model, params_array, X_mat, y, n_folds=5):
+def my_grid_search_cv(model, params_array, X_mat, y, n_folds=5, pca=False, pca_components=40):
     res = []
+    if pca:
+        pca = PCA(n_components=pca_components)
+        X_new =pca.fit(X_mat)
     kf = KFold(n_splits=n_folds, shuffle=True, random_state=42)
     for param in params_array:
         eval_array =[]
@@ -58,8 +119,13 @@ def my_grid_search_cv(model, params_array, X_mat, y, n_folds=5):
         for train_index, test_index in kf.split(X_mat):
             X_traincv, X_testcv = X_mat.iloc[train_index], X_mat.iloc[test_index]
             y_traincv, y_testcv = y.iloc[train_index], y.iloc[test_index]
-            model.fit(X_traincv, y_traincv)
-            y_pred = model.predict(X_testcv)
+            if pca:
+                X_traincvpca = pca.transform(X_traincv)
+                X_testcvpca = pca.transform(X_testcv)
+                model.fit(X_traincvpca, y_traincv)
+            else:
+                model.fit(X_traincv, y_traincv)
+            y_pred = model.predict(X_testcvpca)
             evaluation =my_eval(X_testcv,y_testcv,y_pred)
             r2 = r2_score(y_testcv,y_pred)
             r2_m = r2_month(X_testcv, y_testcv, y_pred)
