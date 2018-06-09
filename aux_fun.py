@@ -56,34 +56,42 @@ def my_grid_search_cv(model, params_array, X_mat, y, n_folds=5, pca=False, pca_c
         X_new =pca.fit(X_mat)
     kf = KFold(n_splits=n_folds, shuffle=True, random_state=42)
     for param in params_array:
-        eval_array =[]
-        R2_array = []
-        R2_month_array =[]
         model_type = type(model)
         model = model_type(**param)
-        for train_index, test_index in kf.split(X_mat):
-            X_traincv, X_testcv = X_mat.iloc[train_index], X_mat.iloc[test_index]
-            y_traincv, y_testcv = y.iloc[train_index], y.iloc[test_index]
-            if pca:
-                X_traincvpca = pca.transform(X_traincv)
-                X_testcvpca = pca.transform(X_testcv)
-                model.fit(X_traincvpca, y_traincv)
-                y_pred = model.predict(X_testcvpca)
 
-            else:
-                model.fit(X_traincv, y_traincv)
-                y_pred = model.predict(X_testcv)
-            evaluation =my_eval(X_testcv,y_testcv,y_pred)
-            r2 = r2_score(y_testcv,y_pred)
-            r2_m = r2_month(X_testcv, y_testcv, y_pred)
-            eval_array.append(evaluation)
-            R2_array.append(r2)
-            R2_month_array.append(r2_m)
-        avg_error = np.divide(np.array(eval_array).sum(), n_folds)
-        avg_r2 = np.divide(np.array(R2_array).sum(),n_folds)
-        avg_r2_month = np.divide(np.array(R2_month_array).sum(),n_folds)
+        avg_error,avg_r2,avg_r2_month=compute_kf(kf,X_mat,y,pca,model,n_folds)
+
         row =[model, n_folds, param, avg_error, avg_r2, avg_r2_month]
         res.append(row)
         print(row)
     results = pd.DataFrame(res,columns=['Method', 'Folds', 'Parameters', 'Eval_test', 'R2', 'R2_month'])
     return results
+'''
+Computes KF
+'''
+def compute_kf(kf,X_mat,y,pca,model,n_folds):
+    eval_array =[]
+    R2_array = []
+    R2_month_array =[]
+    for train_index, test_index in kf.split(X_mat):
+        X_traincv, X_testcv = X_mat.iloc[train_index], X_mat.iloc[test_index]
+        y_traincv, y_testcv = y.iloc[train_index], y.iloc[test_index]
+        if pca:
+            X_traincvpca = pca.transform(X_traincv)
+            X_testcvpca = pca.transform(X_testcv)
+            model.fit(X_traincvpca, y_traincv)
+            y_pred = model.predict(X_testcvpca)
+
+        else:
+            model.fit(X_traincv, y_traincv)
+            y_pred = model.predict(X_testcv)
+        evaluation =my_eval(X_testcv,y_testcv,y_pred)
+        r2 = r2_score(y_testcv,y_pred)
+        r2_m = r2_month(X_testcv, y_testcv, y_pred)
+        eval_array.append(evaluation)
+        R2_array.append(r2)
+        R2_month_array.append(r2_m)
+    avg_error = np.divide(np.array(eval_array).sum(), n_folds)
+    avg_r2 = np.divide(np.array(R2_array).sum(),n_folds)
+    avg_r2_month = np.divide(np.array(R2_month_array).sum(),n_folds)
+    return avg_error,avg_r2,avg_r2_month
