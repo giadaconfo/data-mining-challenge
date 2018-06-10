@@ -18,7 +18,7 @@ Prof. Pier Luca Lanzi
 - [Presentation](https://github.com/giadaconfo/data-mining-challenge/blob/master/assets/presentation.pdf)
 
 ## Main method used
-- <a href="https://xgboost.readthedocs.io/en/latest/"">XGBoost</a>
+- <a href="https://xgboost.readthedocs.io/en/latest/">XGBoost</a>
   - Prediction error: <b>0.0318053</b>
   - R2: 0.9571833
   - R2 month: 0.9922505
