@@ -8,14 +8,17 @@
 # Data Mining Challenge
 
 Polytechnic University of Milan
+
 Data Mining and Text Mining (UIC 583)  - A.Y. 2017/18
+
 Prof. Pier Luca Lanzi
 
 
 
 ## Useful links
-- [Project Report](https://github.com/giadaconfo/data-mining-challenge/blob/master/assets/report.pdf)
+- [Assignment](https://github.com/giadaconfo/data-mining-challenge/blob/master/assets/Challenge2018.pdf)
 - [Presentation](https://github.com/giadaconfo/data-mining-challenge/blob/master/assets/presentation.pdf)
+- [Project Report](https://github.com/giadaconfo/data-mining-challenge/blob/master/assets/report.pdf)
 
 ## Main method used
 - <a href="https://xgboost.readthedocs.io/en/latest/">XGBoost</a>
