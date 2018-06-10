@@ -18,7 +18,7 @@ Prof. Pier Luca Lanzi
 ## Useful links
 - [Assignment](https://github.com/giadaconfo/data-mining-challenge/blob/master/assets/Challenge2018.pdf)
 - [Presentation](https://github.com/giadaconfo/data-mining-challenge/blob/master/assets/presentation.pdf)
-- [Project Report](https://github.com/giadaconfo/data-mining-challenge/blob/master/assets/report.pdf)
+- [Project Report](https://github.com/giadaconfo/data-mining-challenge/blob/master/assets/Report.pdf)
 
 ## Main methods used
 - <a href="https://xgboost.readthedocs.io/en/latest/">XGBoost</a>
