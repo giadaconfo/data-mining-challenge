@@ -19,14 +19,14 @@ Prof. Pier Luca Lanzi
 
 ## Main method used
 - <a href="https://xgboost.readthedocs.io/en/latest/"">XGBoost</a>
--- Prediction error: <b>0.0318053</b>
--- R2: 0.9571833
--- R2 month: 0.9922505
+  - Prediction error: <b>0.0318053</b>
+  - R2: 0.9571833
+  - R2 month: 0.9922505
 - <a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html">Random Forest</a>
--- Prediction Error: <b>0.0501234</b>
--- R2: 0.912253957008
--- R2 month: 0.977421353598
+  - Prediction Error: <b>0.0501234</b>
+  - R2: 0.912253957008
+  - R2 month: 0.977421353598
 - <a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html">Random Forest per store</a>
--- Prediction Error: <b>0.0472165</b>
--- R2: 0.895671054977
--- R2 Month: 0.991614816546
+  - Prediction Error: <b>0.0472165</b>
+  - R2: 0.895671054977
+  - R2 Month: 0.991614816546
