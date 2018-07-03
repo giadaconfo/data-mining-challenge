@@ -5,11 +5,13 @@
 
 
 
-# Data Mining Challenge
+# Data Mining Challenge 🥉
 
 Polytechnic University of Milan
 
 Data Mining and Text Mining (UIC 583)  - A.Y. 2017/18
+
+Ranked 3rd 🥉 Evaluated full marks: 9/9
 
 Prof. Pier Luca Lanzi
 
